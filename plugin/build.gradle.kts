@@ -54,3 +54,7 @@ tasks.named<Task>("check") {
 tasks.named("assemble") {
     dependsOn("ktlintFormat")
 }
+
+ktlint {
+    disabledRules.set(setOf("no-wildcard-imports"))
+}
