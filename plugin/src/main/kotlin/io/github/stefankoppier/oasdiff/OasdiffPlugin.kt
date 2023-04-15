@@ -2,6 +2,7 @@ package io.github.stefankoppier.oasdiff
 
 import org.gradle.api.Project
 import org.gradle.api.Plugin
+import java.io.File
 
 class OasdiffPlugin: Plugin<Project> {
 
@@ -19,15 +20,24 @@ class OasdiffPlugin: Plugin<Project> {
         }
         project.tasks.register(BREAKING_CHANGE_TASK_NAME, OasdiffCheckBreakingTask::class.java) {
             it.group = OASDIFF
-            it.workingDirectory.set(directory(extension))
+            it.directory.set(directory(extension).map { dir -> "${dir}${File.separator}${version}" })
             it.base.set(extension.base)
             it.revision.set(extension.revision)
+            it.exclusions.set(extension.exclude)
+            it.failOnDiff.set(failOnDiff(extension))
+            it.failOnWarn.set(failOnWarn(extension))
             it.dependsOn(install)
         }
     }
 
     private fun directory(extension: OasdiffPluginExtension)
         = extension.directory.convention("${project.rootDir}/.gradle/oasdiff")
+
+    private fun failOnDiff(extension: OasdiffPluginExtension)
+            = extension.failOnDiff.convention(false)
+
+    private fun failOnWarn(extension: OasdiffPluginExtension)
+            = extension.failOnWarn.convention(false)
 
     companion object {
         const val version = "1.3.21"

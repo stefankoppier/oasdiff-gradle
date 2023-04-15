@@ -12,6 +12,10 @@ abstract class OasdiffPluginExtension {
     abstract val revision: Property<String>
 
     abstract val exclude: SetProperty<OasdiffExclusion>
+
+    abstract val failOnDiff: Property<Boolean>
+
+    abstract val failOnWarn: Property<Boolean>
 }
 
 enum class OasdiffExclusion {
@@ -19,5 +23,15 @@ enum class OasdiffExclusion {
     DESCRIPTION,
     TITLE,
     SUMMARY,
-    ENDPOINTS,
+    ENDPOINTS;
+
+    override fun toString(): String {
+        return when (this) {
+            EXAMPLES -> "changes"
+            DESCRIPTION -> "description"
+            TITLE -> "title"
+            SUMMARY -> "summary"
+            ENDPOINTS -> "endpoints"
+        }
+    }
 }

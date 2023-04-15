@@ -15,7 +15,6 @@ import java.net.URL
 import java.nio.channels.Channels
 
 // TODO: only works on Windows?
-// TODO: niet downloaden maar in resources plaatsen
 abstract class OasdiffInstallTask : DefaultTask() {
 
     private val url = URL("https://github.com/Tufin/oasdiff/releases/download/v${version}/oasdiff_${version}_windows_amd64.tar.gz")
