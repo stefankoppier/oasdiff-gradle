@@ -3,6 +3,7 @@ plugins {
     `maven-publish`
 
     id("org.jetbrains.kotlin.jvm") version "1.8.20"
+    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
 }
 
 repositories {
@@ -49,4 +50,8 @@ gradlePlugin.testSourceSets(functionalTestSourceSet)
 
 tasks.named<Task>("check") {
     dependsOn(functionalTest)
+}
+
+tasks.named("assemble") {
+    dependsOn("ktlintFormat")
 }

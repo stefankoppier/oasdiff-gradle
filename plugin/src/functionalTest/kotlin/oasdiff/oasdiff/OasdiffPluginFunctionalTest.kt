@@ -3,13 +3,11 @@
  */
 package oasdiff.oasdiff
 
-import java.io.File
-import java.nio.file.Files
-import kotlin.test.assertTrue
-import kotlin.test.Test
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
+import kotlin.test.Test
+import kotlin.test.assertTrue
 
 /**
  * A simple functional test for the 'oasdiff.gradle.greeting' plugin.
@@ -24,11 +22,13 @@ class OasdiffPluginFunctionalTest {
     @Test fun `can run task`() {
         // Setup the test build
         getSettingsFile().writeText("")
-        getBuildFile().writeText("""
+        getBuildFile().writeText(
+            """
 plugins {
     id('oasdiff.gradle.greeting')
 }
-""")
+"""
+        )
 
         // Run the build
         val runner = GradleRunner.create()
@@ -36,7 +36,7 @@ plugins {
         runner.withPluginClasspath()
         runner.withArguments("greeting")
         runner.withProjectDir(getProjectDir())
-        val result = runner.build();
+        val result = runner.build()
 
         // Verify the result
         assertTrue(result.output.contains("Hello from plugin 'oasdiff.gradle.greeting'"))

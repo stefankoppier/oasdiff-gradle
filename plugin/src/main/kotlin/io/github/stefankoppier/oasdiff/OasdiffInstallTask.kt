@@ -17,13 +17,13 @@ import java.nio.channels.Channels
 // TODO: only works on Windows?
 abstract class OasdiffInstallTask : DefaultTask() {
 
-    private val url = URL("https://github.com/Tufin/oasdiff/releases/download/v${version}/oasdiff_${version}_windows_amd64.tar.gz")
+    private val url = URL("https://github.com/Tufin/oasdiff/releases/download/v$version/oasdiff_${version}_windows_amd64.tar.gz")
 
     @get:Input
     abstract val workingDirectory: Property<String>
 
     @get:Internal
-    val downloadDirectory: Provider<String> = workingDirectory.map { "${it}${separator}tmp${separator}" }
+    val downloadDirectory: Provider<String> = workingDirectory.map { "${it}${separator}tmp$separator" }
 
     @TaskAction
     fun execute() {
