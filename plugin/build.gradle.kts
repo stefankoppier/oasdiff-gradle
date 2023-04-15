@@ -1,12 +1,16 @@
 plugins {
     `java-gradle-plugin`
+    `maven-publish`
 
-    id("org.jetbrains.kotlin.jvm") version "1.6.21"
+    id("org.jetbrains.kotlin.jvm") version "1.8.20"
 }
 
 repositories {
     mavenCentral()
 }
+
+group = "io.github.stefankoppier"
+version = "0.0.1"
 
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
@@ -17,9 +21,17 @@ dependencies {
 }
 
 gradlePlugin {
-    val greeting by plugins.creating {
-        id = "oasdiff.gradle.greeting"
-        implementationClass = "oasdiff.gradle.OasdiffGradlePlugin"
+    plugins {
+        create("oasdiff") {
+            id = "io.github.stefankoppier.oasdiff"
+            implementationClass = "io.github.stefankoppier.oasdiff.OasdiffPlugin"
+        }
+    }
+}
+
+publishing {
+    repositories {
+        mavenLocal()
     }
 }
 
