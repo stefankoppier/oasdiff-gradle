@@ -1,0 +1,19 @@
+name: Build
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build Windows
+        uses: ./.github/workflows/build-windows.yml
+
+      - name: Build Linux
+        uses: ./.github/workflows/build-linux.yml
