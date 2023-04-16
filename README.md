@@ -31,4 +31,4 @@ The following addition configuration options are available
 | failOnWarn | Let the task fail when a warning has been detected.           |
 
 # Credits
-This project is a wrapper on [oasdiff](https://github.com/Tufin/oasdiff) by [Tufin](https://github.com/Tufin).
+This project is a wrapper around [oasdiff](https://github.com/Tufin/oasdiff) by [Tufin](https://github.com/Tufin).
