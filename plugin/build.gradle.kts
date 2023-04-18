@@ -2,6 +2,7 @@ plugins {
     id("java-gradle-plugin")
     id("maven-publish")
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.gradle.publish)
     alias(libs.plugins.ktlint)
 }
 
@@ -21,9 +22,15 @@ dependencies {
 }
 
 gradlePlugin {
+    website.set("https://github.com/stefankoppier/oasdiff-gradle")
+    vcsUrl.set("https://github.com/stefankoppier/oasdiff-gradle")
+
     plugins {
         create("oasdiff") {
             id = "io.github.stefankoppier.oasdiff"
+            displayName = "oasdiff"
+            description = "Wrapper for the Tufin oasdiff OpenAPI breaking changes detection tool."
+            tags.set(listOf("oasdiff", "OpenAPI", "breaking changes", "api validation"))
             implementationClass = "io.github.stefankoppier.oasdiff.OasdiffPlugin"
         }
     }
