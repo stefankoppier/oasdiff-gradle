@@ -3,7 +3,7 @@ module.exports = {
     username: 'renovate-release',
     gitAuthor: 'Renovate Bot <bot@renovateapp.com>',
     onboarding: false,
-    includeForks: false,
+    forkProcessing: 'disabled',
     platform: 'github',
     dryRun: 'full',
     repositories: ['stefankoppier/oasdiff-gradle']
