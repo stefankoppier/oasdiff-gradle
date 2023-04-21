@@ -1,6 +1,7 @@
 {
   "extends": ["config:base"],
   "branchPrefix": "renovate",
+  "baseBranches": ["feature/setup-renovate"],
   "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
   "platform": "github",
   "repositories": ["stefankoppier/oasdiff-gradle"]
