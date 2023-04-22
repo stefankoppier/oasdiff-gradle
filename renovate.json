@@ -2,8 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "regexManagers": [
     {
-      "fileMatch": ["[azAZ\\/\\\\]*OasdiffPlugin\\.kt"],
-      "matchStrings": [".*const val VERSION = \"?<currentValue>.*?\".*"],
+      "fileMatch": ["^[\\w+\\\\\\/]+Oasdiff.kt$"],
+      "matchStrings": ["const val VERSION = \"(?<currentValue>.*?)\"\\n"],
       "datasourceTemplate": "github-tags",
       "depNameTemplate": "Tufin/oasdiff"
     }

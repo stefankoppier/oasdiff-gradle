@@ -40,7 +40,6 @@ class OasdiffPlugin : Plugin<Project> {
         extension.failOnWarn.convention(false)
 
     companion object {
-        const val VERSION = "1.3.21" // Note that this variable is regex matched by Renovate.
         private const val OASDIFF = "oasdiff"
         private const val INSTALL_TASK_NAME = "oasdiffInstall"
         private const val BREAKING_CHANGE_TASK_NAME = "oasdiffCheckBreaking"
