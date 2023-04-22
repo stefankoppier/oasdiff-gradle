@@ -5,6 +5,5 @@ module.exports = {
     onboarding: true,
     forkProcessing: 'disabled',
     platform: 'github',
-    dryRun: 'full',
     repositories: ['stefankoppier/oasdiff-gradle']
 }
