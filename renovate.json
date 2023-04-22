@@ -5,7 +5,7 @@
       "fileMatch": ["^[\\w+\\\\\\/]+Oasdiff.kt$"],
       "matchStrings": [".* _VERSION = \"(?<currentValue>.*?)\"\\n"],
       "datasourceTemplate": "github-tags",
-      "depNameTemplate": "Tufin/oasdiff",
+      "depNameTemplate": "Tufin/oasdiff"
     }
   ]
 }
