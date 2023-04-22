@@ -1,6 +1,6 @@
 package io.github.stefankoppier.oasdiff
 
-import io.github.stefankoppier.oasdiff.OasdiffPlugin.Companion.version
+import io.github.stefankoppier.oasdiff.OasdiffPlugin.Companion.VERSION
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileTree
 import org.gradle.api.provider.Property
@@ -17,7 +17,7 @@ import java.nio.channels.Channels
 // TODO: only works on Windows?
 abstract class OasdiffInstallTask : DefaultTask() {
 
-    private val url = URL("https://github.com/Tufin/oasdiff/releases/download/v$version/oasdiff_${version}_windows_amd64.tar.gz")
+    private val url = URL("https://github.com/Tufin/oasdiff/releases/download/v$VERSION/oasdiff_${VERSION}_windows_amd64.tar.gz")
 
     @get:Input
     abstract val workingDirectory: Property<String>
@@ -46,7 +46,7 @@ abstract class OasdiffInstallTask : DefaultTask() {
 
     private fun extract(files: FileTree) {
         files.forEach { file ->
-            val target = "${workingDirectory.map { "${it}${separator}$version" }.get()}${separator}${file.name}"
+            val target = "${workingDirectory.map { "${it}${separator}$VERSION" }.get()}${separator}${file.name}"
             file.copyTo(File(target), true)
         }
     }

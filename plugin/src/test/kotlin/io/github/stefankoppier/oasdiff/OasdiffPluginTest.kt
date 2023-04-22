@@ -37,7 +37,7 @@ class OasdiffPluginTest {
         assertIs<OasdiffCheckBreakingTask>(task)
         task.run {
             assertEquals("oasdiff", group)
-            assertEquals("${project.rootDir}/.gradle/oasdiff${separator}${OasdiffPlugin.version}", directory.get())
+            assertEquals("${project.rootDir}/.gradle/oasdiff${separator}${OasdiffPlugin.VERSION}", directory.get())
             assertFalse { failOnDiff.get() }
             assertFalse { failOnWarn.get() }
         }

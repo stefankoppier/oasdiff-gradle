@@ -20,7 +20,7 @@ class OasdiffPlugin : Plugin<Project> {
         }
         project.tasks.register(BREAKING_CHANGE_TASK_NAME, OasdiffCheckBreakingTask::class.java) {
             it.group = OASDIFF
-            it.directory.set(directory(extension).map { dir -> "${dir}${File.separator}$version" })
+            it.directory.set(directory(extension).map { dir -> "${dir}${File.separator}$VERSION" })
             it.base.set(extension.base)
             it.revision.set(extension.revision)
             it.exclusions.set(extension.exclude)
@@ -40,7 +40,7 @@ class OasdiffPlugin : Plugin<Project> {
         extension.failOnWarn.convention(false)
 
     companion object {
-        const val version = "1.3.21"
+        const val VERSION = "1.3.21" // Note that this variable is regex matched by Renovate.
         private const val OASDIFF = "oasdiff"
         private const val INSTALL_TASK_NAME = "oasdiffInstall"
         private const val BREAKING_CHANGE_TASK_NAME = "oasdiffCheckBreaking"
