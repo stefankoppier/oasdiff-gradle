@@ -1,8 +1,6 @@
 name: Build
 
-on:
-  push:
-    branches: ["main"]
+on: push
 
 permissions:
   contents: read
@@ -23,7 +21,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin'
+          distribution: 'oracle'
 
       - name: Build
         uses: gradle/gradle-build-action@v2
