@@ -1,6 +1,5 @@
 package io.github.stefankoppier.oasdiff
 
-import io.github.stefankoppier.oasdiff.OasdiffPlugin.Companion.VERSION
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileTree
 import org.gradle.api.provider.Property
