@@ -5,5 +5,6 @@ module.exports = {
     onboarding: true,
     forkProcessing: 'disabled',
     platform: 'github',
+    globalExtends: ["config:base", "group:all", ":disableDependencyDashboard"]
     repositories: ['stefankoppier/oasdiff-gradle']
 }
