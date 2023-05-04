@@ -43,7 +43,7 @@ class OasdiffPluginFunctionalTest {
 
         projectDir.resolve(".gradle${separator}oasdiff").run {
             assertTrue("folder '$path' does not exist") { exists() }
-            this.resolve("1.3.21").run {
+            this.resolve(VERSION).run {
                 assertTrue("folder '$path' does not exist") { exists() }
                 this.resolve("oasdiff.exe").run {
                     assertTrue("file '$path' does not exist") { exists() }
