@@ -52,6 +52,10 @@ val functionalTest by tasks.registering(Test::class) {
     classpath = functionalTestSourceSet.runtimeClasspath
 }
 
+tasks.named("compileFunctionalTestKotlin") {
+    dependsOn += tasks.compileKotlin
+}
+
 gradlePlugin.testSourceSets(functionalTestSourceSet)
 
 tasks.named<Task>("check") {
