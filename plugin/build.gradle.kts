@@ -84,3 +84,11 @@ tasks.named("assemble") {
 ktlint {
     disabledRules.set(setOf("no-wildcard-imports"))
 }
+
+sonarqube {
+    properties {
+        property("sonar.organization", "stefankoppier")
+        property("sonar.projectKey", "oasdiff-gradle")
+        property("sonar.branch.target", "main")
+    }
+}
