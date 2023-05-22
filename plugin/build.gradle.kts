@@ -1,8 +1,10 @@
 plugins {
     id("java-gradle-plugin")
     id("maven-publish")
+    id("jacoco")
     alias(libs.plugins.kotlin)
     alias(libs.plugins.gradle.publish)
+    alias(libs.plugins.sonarqube)
     alias(libs.plugins.ktlint)
 }
 
@@ -40,6 +42,19 @@ publishing {
     repositories {
         mavenLocal()
     }
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+    }
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
 }
 
 val functionalTestSourceSet = sourceSets.create("functionalTest") {
