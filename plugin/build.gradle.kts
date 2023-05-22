@@ -85,7 +85,7 @@ ktlint {
     disabledRules.set(setOf("no-wildcard-imports"))
 }
 
-sonarqube {
+sonar {
     properties {
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.organization", "stefankoppier")
