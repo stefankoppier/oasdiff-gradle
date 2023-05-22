@@ -87,8 +87,8 @@ ktlint {
 
 sonarqube {
     properties {
+        property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.organization", "stefankoppier")
         property("sonar.projectKey", "oasdiff-gradle")
-        property("sonar.branch.target", "main")
     }
 }
