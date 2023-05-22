@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream
+
 plugins {
     id("java-gradle-plugin")
     id("maven-publish")
@@ -90,5 +92,23 @@ sonar {
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.organization", "stefankoppier")
         property("sonar.projectKey", "stefankoppier_oasdiff-gradle")
+        property("sonar.branch", gitBranch())
+    }
+}
+
+fun gitBranch(): String {
+    return try {
+        val byteOut = ByteArrayOutputStream()
+        project.exec {
+            commandLine = "git rev-parse --abbrev-ref HEAD".split(" ")
+            standardOutput = byteOut
+        }
+        String(byteOut.toByteArray()).trim().also {
+            if (it == "HEAD")
+                logger.warn("Unable to determine current branch: Project is checked out with detached head!")
+        }
+    } catch (e: Exception) {
+        logger.warn("Unable to determine current branch: ${e.message}")
+        "Unknown Branch"
     }
 }
