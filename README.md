@@ -1,4 +1,4 @@
-![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/io.github.stefankoppier.oasdiff)
+[![Gradle Plugin Portal]](https://img.shields.io/gradle-plugin-portal/v/io.github.stefankoppier.oasdiff)](https://plugins.gradle.org/plugin/io.github.stefankoppier.oasdiff)
 
 # oasdiff-gradle
 Gradle plugin for [oasdiff](https://github.com/Tufin/oasdiff): a tool to compare and detect breaking changes in OpenAPI specs.
