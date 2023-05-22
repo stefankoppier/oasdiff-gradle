@@ -89,6 +89,6 @@ sonar {
     properties {
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.organization", "stefankoppier")
-        property("sonar.projectKey", "oasdiff-gradle")
+        property("sonar.projectKey", "stefankoppier_oasdiff-gradle")
     }
 }
