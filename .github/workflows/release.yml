@@ -59,9 +59,9 @@ jobs:
       - name: Update project version
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: ${{ steps.currenttag.outputs.tag }}
-          replace: ${{ steps.nextversion.outputs.version }}
-          include: ./gradle.properties
+          find: "${{ steps.currenttag.outputs.tag }}"
+          replace: "${{ steps.nextversion.outputs.version }}"
+          include: "./gradle.properties"
           regex: false
 
       - name: Commit, push and tag
