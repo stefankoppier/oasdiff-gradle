@@ -1,8 +1,12 @@
+import java.io.ByteArrayOutputStream
+
 plugins {
     id("java-gradle-plugin")
     id("maven-publish")
+    id("jacoco")
     alias(libs.plugins.kotlin)
     alias(libs.plugins.gradle.publish)
+    alias(libs.plugins.sonarqube)
     alias(libs.plugins.ktlint)
 }
 
@@ -42,6 +46,19 @@ publishing {
     }
 }
 
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+    }
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+}
+
 val functionalTestSourceSet = sourceSets.create("functionalTest") {
 }
 
@@ -68,4 +85,30 @@ tasks.named("assemble") {
 
 ktlint {
     disabledRules.set(setOf("no-wildcard-imports"))
+}
+
+sonar {
+    properties {
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.organization", "stefankoppier")
+        property("sonar.projectKey", "stefankoppier_oasdiff-gradle")
+        property("sonar.branch", gitBranch())
+    }
+}
+
+fun gitBranch(): String {
+    return try {
+        val byteOut = ByteArrayOutputStream()
+        project.exec {
+            commandLine = "git rev-parse --abbrev-ref HEAD".split(" ")
+            standardOutput = byteOut
+        }
+        String(byteOut.toByteArray()).trim().also {
+            if (it == "HEAD")
+                logger.warn("Unable to determine current branch: Project is checked out with detached head!")
+        }
+    } catch (e: Exception) {
+        logger.warn("Unable to determine current branch: ${e.message}")
+        "Unknown Branch"
+    }
 }
