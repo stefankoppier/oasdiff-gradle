@@ -3,12 +3,14 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      type: choice
-      description: Increment
-      options:
-        - Patch
-        - Minor
-        - Major
+      Increment:
+        type: choice
+        description: Increment
+        required: true
+        options:
+          - Patch
+          - Minor
+          - Major
 
 permissions:
   contents: write
