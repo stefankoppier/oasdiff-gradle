@@ -40,6 +40,12 @@ gradlePlugin {
     }
 }
 
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of("17"))
+    }
+}
+
 publishing {
     repositories {
         mavenLocal()
@@ -104,8 +110,9 @@ fun gitBranch(): String {
             standardOutput = byteOut
         }
         String(byteOut.toByteArray()).trim().also {
-            if (it == "HEAD")
+            if (it == "HEAD") {
                 logger.warn("Unable to determine current branch: Project is checked out with detached head!")
+            }
         }
     } catch (e: Exception) {
         logger.warn("Unable to determine current branch: ${e.message}")
