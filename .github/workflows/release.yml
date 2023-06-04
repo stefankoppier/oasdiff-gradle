@@ -57,19 +57,15 @@ jobs:
           esac
 
       - name: Update project version
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "${{ steps.currenttag.outputs.tag }}"
-          replace: "${{ steps.nextversion.outputs.version }}"
-          include: "./gradle.properties"
-          regex: false
+        run: |
+          sed -i 's/${{ steps.currenttag.outputs.tag }}/${{ steps.nextversion.outputs.version }}/g' ./gradle.properties
 
       - name: Commit, push and tag
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Updated project version"
+          git commit -m "Released version $VERSION"
           git push
           git tag $VERSION
           git push origin $VERSION
