@@ -80,10 +80,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-#      - name: Gradle publish
-#        uses: gradle/gradle-build-action@v2
-#        with:
-#          arguments: publishPlugins -Dgradle.publish.key=${{ secrets.PUBLISH_KEY }} -Dgradle.publish.secret=${{ secrets.PUBLISH_SECRET }}
-#          gradle-version: wrapper
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Gradle publish
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: publishPlugins -Dgradle.publish.key=${{ secrets.PUBLISH_KEY }} -Dgradle.publish.secret=${{ secrets.PUBLISH_SECRET }}
+          gradle-version: wrapper
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
