@@ -31,12 +31,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: build
-          gradle-version: wrapper
-
       - name: Get current Version
         id: previoustag
         uses: WyriHaximus/github-action-get-previous-tag@v1
