@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      type: choice
+      description: Increment
+      options:
+        - Patch
+        - Minor
+        - Major
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build
+          gradle-version: wrapper
+
+      - name: Get current version
+        uses: WyriHaximus/github-action-get-previous-tag@v1
+
+      - name: Get next version
+
+      - name: Github Release
+        uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
