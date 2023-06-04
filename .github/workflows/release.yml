@@ -3,7 +3,7 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      Increment:
+      increment:
         type: choice
         description: Increment
         required: true
@@ -44,7 +44,7 @@ jobs:
       - name: Determine release version
         id: nextversion
         run: |
-          case "${{ inputs.environment }}" in
+          case "${{ inputs.increment }}" in
             patch) 
               echo "version=${{ steps.previoustag.outputs.patch }}" >> $GITHUB_OUTPUT
               ;;
