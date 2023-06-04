@@ -45,14 +45,14 @@ jobs:
         id: nextversion
         run: |
           case "${{ inputs.increment }}" in
-            patch) 
-              echo "version=${{ steps.previoustag.outputs.patch }}" >> $GITHUB_OUTPUT
+            Patch) 
+              echo "version=${{ steps.nexttag.outputs.patch }}" >> $GITHUB_OUTPUT
               ;;
-            minor) 
-              echo "version=${{ steps.previoustag.outputs.minor }}" >> $GITHUB_OUTPUT
+            Minor) 
+              echo "version=${{ steps.nexttag.outputs.minor }}" >> $GITHUB_OUTPUT
               ;;
-            major) 
-              echo "version=${{ steps.previoustag.outputs.major }}" >> $GITHUB_OUTPUT
+            Major) 
+              echo "version=${{ steps.nexttag.outputs.major }}" >> $GITHUB_OUTPUT
               ;;
           esac
 
@@ -76,3 +76,11 @@ jobs:
         uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+#      - name: Gradle publish
+#        uses: gradle/gradle-build-action@v2
+#        with:
+#          arguments: publishPlugins -Dgradle.publish.key=${{ secrets.PUBLISH_KEY }} -Dgradle.publish.secret=${{ secrets.PUBLISH_SECRET }}
+#          gradle-version: wrapper
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
