@@ -45,9 +45,16 @@ jobs:
         id: nextversion
         run: |
           case "${{ inputs.environment }}" in
-            patch) echo "version=${{ steps.previoustag.outputs.patch }}" >> $GITHUB_OUTPUT
-            minor) echo "version=${{ steps.previoustag.outputs.minor }}" >> $GITHUB_OUTPUT
-            major) echo "version=${{ steps.previoustag.outputs.major }}" >> $GITHUB_OUTPUT
+            patch) 
+              echo "version=${{ steps.previoustag.outputs.patch }}" >> $GITHUB_OUTPUT
+              ;;
+            minor) 
+              echo "version=${{ steps.previoustag.outputs.minor }}" >> $GITHUB_OUTPUT
+              ;;
+            major) 
+              echo "version=${{ steps.previoustag.outputs.major }}" >> $GITHUB_OUTPUT
+              ;;
+          esac
 
       - name: Update project version
         uses: christian-draeger/write-properties@1.1.0
