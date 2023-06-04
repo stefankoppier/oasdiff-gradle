@@ -105,7 +105,7 @@ sonar {
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.organization", "stefankoppier")
         property("sonar.projectKey", "stefankoppier_oasdiff-gradle")
-        property("sonar.branch", branch())
+        property("sonar.branch.name", branch())
     }
 }
 
