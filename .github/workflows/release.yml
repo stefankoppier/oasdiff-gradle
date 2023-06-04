@@ -32,14 +32,14 @@ jobs:
           distribution: 'temurin'
 
       - name: Get current version
-        id: previoustag
+        id: currenttag
         uses: WyriHaximus/github-action-get-previous-tag@v1
 
       - name: Get next versions
         id: nexttag
         uses: WyriHaximus/github-action-next-semvers@v1
         with:
-          version: ${{ steps.previoustag.outputs.tag }}
+          version: ${{ steps.currenttag.outputs.tag }}
 
       - name: Determine release version
         id: nextversion
@@ -57,11 +57,12 @@ jobs:
           esac
 
       - name: Update project version
-        uses: christian-draeger/write-properties@1.1.0
+        uses: jacobtomlinson/gha-find-replace@v3
         with:
-          path: ./gradle.properties
-          property: 'version'
-          value: ${{ steps.nextversion.outputs.version }}
+          find: ${{ steps.currenttag.outputs.tag }}
+          replace: ${{ steps.nextversion.outputs.version }}
+          include: ./gradle.properties
+          regex: false
 
       - name: Commit, push and tag
         run: |
