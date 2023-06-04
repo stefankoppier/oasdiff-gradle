@@ -15,7 +15,6 @@ repositories {
 }
 
 group = "io.github.stefankoppier"
-version = "0.0.2"
 
 dependencies {
     implementation(platform(libs.kotlin.bom))

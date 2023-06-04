@@ -31,17 +31,43 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Get current Version
+      - name: Get current version
         id: previoustag
         uses: WyriHaximus/github-action-get-previous-tag@v1
 
-      - name: Get next Version
+      - name: Get next versions
         id: nexttag
         uses: WyriHaximus/github-action-next-semvers@v1
         with:
           version: ${{ steps.previoustag.outputs.tag }}
 
-      - name: Github Release
+      - name: Determine release version
+        id: nextversion
+        run: |
+          case "${{ inputs.environment }}" in
+            patch) echo "version=${{ steps.previoustag.outputs.patch }}"
+            minor) echo "version=${{ steps.previoustag.outputs.minor }}"
+            major) echo "version=${{ steps.previoustag.outputs.major }}"
+        outputs:
+          version
+
+      - name: Update project version
+        uses: christian-draeger/write-properties@1.1.0
+        with:
+          path: ./gradle.properties
+          property: 'version'
+          value: ${{ steps.nextversion.outputs.version }}
+
+      - name: Commit, push and tag
+        run: |
+          git add .
+          git commit -m "Updated project version"
+          git push
+          git tag $VERSION
+        env:
+          VERSION: ${{ steps.nextversion.outputs.version }}
+
+      - name: Github release
         uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
