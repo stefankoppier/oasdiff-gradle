@@ -10,18 +10,23 @@ import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class OasdiffPluginFunctionalTest {
-    @get:Rule val tempFolder = TemporaryFolder()
+
+    @get:Rule
+    val folder = TemporaryFolder()
 
     private lateinit var runner: GradleRunner
 
-    private val projectDir
-        get() = tempFolder.root
-
-    private val buildFile
-        get() = projectDir.resolve("build.gradle")
+    private val buildFile get() = folder.root.resolve("build.gradle")
 
     @BeforeTest
     fun before() {
+        runner = GradleRunner.create()
+            .forwardOutput()
+            .withPluginClasspath()
+            .withProjectDir(folder.root)
+            .withTestKitDir(folder.newFolder())
+            .withJaCoCo()
+
         buildFile.writeText(
             """
                 plugins {
@@ -29,11 +34,6 @@ class OasdiffPluginFunctionalTest {
                 }
             """.trimIndent()
         )
-
-        runner = GradleRunner.create()
-        runner.forwardOutput()
-        runner.withPluginClasspath()
-        runner.withProjectDir(projectDir)
     }
 
     @Test
@@ -41,7 +41,7 @@ class OasdiffPluginFunctionalTest {
         runner.withArguments("oasdiffInstall")
         runner.build()
 
-        projectDir.resolve(".gradle${separator}oasdiff").run {
+        runner.projectDir.resolve(".gradle${separator}oasdiff").run {
             assertTrue("folder '$path' does not exist") { exists() }
             this.resolve(VERSION).run {
                 assertTrue("folder '$path' does not exist") { exists() }
@@ -54,9 +54,9 @@ class OasdiffPluginFunctionalTest {
 
     @Test
     fun `can run oasDiffBreaking task`() {
-        val base = projectDir.resolve("base-api.yml")
+        val base = runner.projectDir.resolve("base-api.yml")
         File("./src/functionalTest/resources/base-api.yml").copyTo(base)
-        val revision = projectDir.resolve("revision-api.yml")
+        val revision = runner.projectDir.resolve("revision-api.yml")
         File("./src/functionalTest/resources/revision-api.yml").copyTo(revision)
 
         buildFile.appendText(

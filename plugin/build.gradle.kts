@@ -4,10 +4,12 @@ plugins {
     id("java-gradle-plugin")
     id("maven-publish")
     id("jacoco")
+    id("jvm-test-suite")
     alias(libs.plugins.kotlin)
     alias(libs.plugins.gradle.publish)
     alias(libs.plugins.sonarqube)
     alias(libs.plugins.ktlint)
+    id("pl.droidsonroids.jacoco.testkit") version "1.0.12"
 }
 
 repositories {
@@ -18,16 +20,54 @@ group = "io.github.stefankoppier"
 version = "0.0.2"
 
 dependencies {
-    implementation(platform(libs.kotlin.bom))
     implementation(libs.kotlin.stdlib.jdk8)
+}
 
-    testImplementation(libs.kotlin.test)
-    testImplementation(libs.kotlin.test.junit)
+testing {
+    suites {
+        configureEach {
+            if (this is JvmTestSuite) {
+                useJUnit()
+
+                dependencies {
+                    implementation(libs.kotlin.test)
+                    implementation(libs.kotlin.test.junit)
+                }
+            }
+        }
+
+        val test by getting(JvmTestSuite::class) {
+            targets {
+                all {
+                    testTask.configure {
+                        finalizedBy("functionalTest")
+                    }
+                }
+            }
+        }
+
+        register<JvmTestSuite>("functionalTest") {
+            dependencies {
+                implementation(project(":plugin"))
+                implementation(gradleTestKit())
+            }
+
+            targets {
+                all {
+                    testTask.configure {
+                        dependsOn(tasks.named("generateJacocoTestKitProperties"))
+                        finalizedBy("jacocoTestReport")
+                    }
+                }
+            }
+        }
+    }
 }
 
 gradlePlugin {
     website.set("https://github.com/stefankoppier/oasdiff-gradle")
     vcsUrl.set("https://github.com/stefankoppier/oasdiff-gradle")
+    testSourceSets(sourceSets.findByName("functionalTest"))
 
     plugins {
         create("oasdiff") {
@@ -52,33 +92,6 @@ tasks.jacocoTestReport {
     }
 }
 
-tasks.test {
-    finalizedBy(tasks.jacocoTestReport)
-}
-tasks.jacocoTestReport {
-    dependsOn(tasks.test)
-}
-
-val functionalTestSourceSet = sourceSets.create("functionalTest") {
-}
-
-configurations["functionalTestImplementation"].extendsFrom(configurations["testImplementation"])
-
-val functionalTest by tasks.registering(Test::class) {
-    testClassesDirs = functionalTestSourceSet.output.classesDirs
-    classpath = functionalTestSourceSet.runtimeClasspath
-}
-
-tasks.named("compileFunctionalTestKotlin") {
-    dependsOn += tasks.compileKotlin
-}
-
-gradlePlugin.testSourceSets(functionalTestSourceSet)
-
-tasks.named<Task>("check") {
-    dependsOn(functionalTest)
-}
-
 tasks.named("assemble") {
     dependsOn("ktlintFormat")
 }
@@ -92,11 +105,11 @@ sonar {
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.organization", "stefankoppier")
         property("sonar.projectKey", "stefankoppier_oasdiff-gradle")
-        property("sonar.branch", gitBranch())
+        property("sonar.branch", branch())
     }
 }
 
-fun gitBranch(): String {
+fun branch(): String {
     return try {
         val byteOut = ByteArrayOutputStream()
         project.exec {
@@ -104,8 +117,9 @@ fun gitBranch(): String {
             standardOutput = byteOut
         }
         String(byteOut.toByteArray()).trim().also {
-            if (it == "HEAD")
+            if (it == "HEAD") {
                 logger.warn("Unable to determine current branch: Project is checked out with detached head!")
+            }
         }
     } catch (e: Exception) {
         logger.warn("Unable to determine current branch: ${e.message}")
